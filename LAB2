@@ -1,0 +1,66 @@
+"""
+    Program Purpose: program to designing a hotel reservation system where guests can book rooms online in Python.
+    For example: The system should prompt the user to select a room type (Single, Double, or Suite) and then ask for the number of rooms to reserve.
+    Programmer: Muhammad Aiman Danial Bin Noor Azimi
+    Date: 23 February 2024
+"""
+def calculate_cost(room_type, num_rooms, num_nights):
+    single = 100
+    double = 150
+    suite = 250
+
+    if room_type == "Single":
+        cost = single * num_nights * num_rooms
+        # Check if eligible for breakfast
+        if num_nights > 7:
+            print("Congratulations! You get a complimentary breakfast voucher.")
+    elif room_type == "Double":
+        cost = double * num_nights * num_rooms
+    elif room_type == "Suite":
+        # Check minimum stay requirement for Suite
+        if num_nights < 3:
+            print("Minimum stay for a Suite is 3 nights.")
+            return None
+        cost = suite * num_nights * num_rooms
+    else:
+        # Handle invalid room type
+        print("Invalid room type. Please choose Single, Double, or Suite.")
+        return None
+
+    # Apply discount if applicable
+    if num_rooms > 5:
+        cost *= 0.9  # Apply 10% discount
+        print("Congratulations! You are eligible for a 10% discount.")
+
+    return cost
+
+
+def main():
+    print("Welcome to Mist Hotel Reservation System!")
+    print("Single: RM100 per night")
+    print("Double: RM150 per night")
+    print("Suite: RM250 per night")
+    room_type = input("Please select room type (Single, Double, Suite): ").capitalize()
+    while room_type not in ["Single", "Double", "Suite"]:
+        print("Invalid room type. Please choose Single, Double, or Suite.")
+        room_type = input("Please select room type (Single, Double, Suite): ").capitalize()
+
+    num_rooms = input("How many rooms would you like to reserve? ")
+    while not num_rooms.isdigit() or int(num_rooms) <= 0:
+        print("Invalid input. Please enter a positive integer for the number of rooms.")
+        num_rooms = input("How many rooms would you like to reserve? ")
+    num_rooms = int(num_rooms)
+
+    num_nights = input("How many nights will you stay? ")
+    while not num_nights.isdigit() or int(num_nights) <= 0:
+        print("Invalid input. Please enter a positive integer for the number of nights.")
+        num_nights = input("How many nights would you stay? ")
+    num_nights = int(num_nights)
+
+    total_cost = calculate_cost(room_type, num_rooms, num_nights)
+    if total_cost is not None:
+        print(f"Total cost of your reservation: RM{total_cost:.2f}")
+
+
+if __name__ == "__main__":
+    main()
